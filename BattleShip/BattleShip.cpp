@@ -25,7 +25,9 @@ int main(void)
 	
 	m_XTime.Restart();
 
-	//m_drawImage.makeRandomTree();
+	int currPlayerIndex = 0;
+	int nextPlayerIndex = 1;
+
 
 	RS_Initialize(RS_WIDTH, RS_HEIGHT);
 
@@ -93,31 +95,36 @@ int main(void)
 				
 			break;
 		case state::play:
-			if (n_players[0].GetState() == PlayerState::wait)
+			if (n_players[nextPlayerIndex].GetState() == PlayerState::wait)
 			{
-				n_players[1].SetState(PlayerState::inProcess);
-				n_players[1].AssignRocket();
-				m_drawImage.BLIT(BackBuffer, n_players[1].GetChoose().m_ChooseX + n_players[1].m_TrackGridX,
-					n_players[1].GetChoose().m_ChooseY + n_players[1].m_TrackGridY + GridUnit,n_players[1].GetChoose()._sprite,
-					n_players[1].GetChoose().m_SourceX,n_players[1].GetChoose().m_SourceY, sea_width, 
-					n_players[1].GetChoose().m_SourceW,n_players[1].GetChoose().m_SourceH);
-
-				if (n_players[1].GetState() == PlayerState::wait)
-					n_players[0].SetState(PlayerState::inProcess);
+				n_players[currPlayerIndex].SetState(PlayerState::inProcess);
+				n_players[currPlayerIndex].AssignRocket();
+				m_drawImage.BLIT(BackBuffer, n_players[currPlayerIndex].GetChoose().m_ChooseX + n_players[currPlayerIndex].m_TrackGridX,
+					n_players[currPlayerIndex].GetChoose().m_ChooseY + n_players[currPlayerIndex].m_TrackGridY + GridUnit, n_players[currPlayerIndex].GetChoose().m_Sprite,
+					n_players[currPlayerIndex].GetChoose().m_SourceX, n_players[currPlayerIndex].GetChoose().m_SourceY, sea_width,
+					n_players[currPlayerIndex].GetChoose().m_SourceW, n_players[currPlayerIndex].GetChoose().m_SourceH);
 			}
-			else
-			{
-				n_players[0].SetState(PlayerState::inProcess);
-				n_players[0].AssignRocket();
-				m_drawImage.BLIT(BackBuffer, n_players[0].GetChoose().m_ChooseX + n_players[0].m_TrackGridX,
-					n_players[0].GetChoose().m_ChooseY + n_players[0].m_TrackGridY + GridUnit,
-					n_players[0].GetChoose()._sprite, n_players[0].GetChoose().m_SourceX,
-					n_players[0].GetChoose().m_SourceY, sea_width, n_players[0].GetChoose().m_SourceW,
-					n_players[0].GetChoose().m_SourceH);
+				
+			if (n_players[currPlayerIndex].GetState() == PlayerState::wait)
+				{
+					n_players[nextPlayerIndex].SetState(PlayerState::inProcess);
 
-				if (n_players[0].GetState() == PlayerState::wait)
-					n_players[1].SetState(PlayerState::inProcess);
-			}
+					if (currPlayerIndex == 0)
+					{
+						currPlayerIndex = 1;
+						nextPlayerIndex = 0;
+					}
+							
+					else
+					{
+						currPlayerIndex = 0;
+						nextPlayerIndex = 1;
+					}
+						
+				}
+				
+			
+			
 				break;
 
 		case state::over:
@@ -126,6 +133,7 @@ int main(void)
 			break;
 		}
 
+		//draw ships
 		for (int playerIndex = 0; playerIndex < 2; playerIndex++)
 		{
 			for (int shipIndex = 0; shipIndex < 5; shipIndex++)
@@ -134,10 +142,68 @@ int main(void)
 				n_players[playerIndex].GetShip(shipIndex)->m_Sprite, n_players[playerIndex].GetShip(shipIndex)->m_sourceX,
 				n_players[playerIndex].GetShip(shipIndex)->m_sourceY, sea_width, n_players[playerIndex].GetShip(shipIndex)->m_sourceW,
 				n_players[playerIndex].GetShip(shipIndex)->m_sourceH);
-
-		
-
 		}
+
+		//draw rocket
+		for (int playerIndex = 0; playerIndex < 2; playerIndex++)
+		{
+			//Tracking system
+			for (int x = 0; x < GridX; x++)
+			{
+				for (int y = 0; y < GridX; y++)
+				{
+					if (n_players[playerIndex].GetTrackBoard()->m_board[x][y] == boardState::hitMissile)
+					{
+						m_drawImage.BLIT(BackBuffer, x*GridUnit + n_players[playerIndex].m_TrackGridX,
+							y*GridUnit + n_players[playerIndex].m_TrackGridY + GridUnit,
+							n_players[currPlayerIndex].GetHitSymbol().m_Sprite,
+							n_players[currPlayerIndex].GetHitSymbol().m_SourceX, n_players[currPlayerIndex].GetHitSymbol().m_SourceY, sea_width,
+							n_players[currPlayerIndex].GetHitSymbol().m_SourceW, n_players[currPlayerIndex].GetHitSymbol().m_SourceH);
+					}
+					else if (n_players[playerIndex].GetTrackBoard()->m_board[x][y] == boardState::noHitMissle)
+					{
+						m_drawImage.BLIT(BackBuffer, x*GridUnit + n_players[playerIndex].m_TrackGridX,
+							y*GridUnit + n_players[playerIndex].m_TrackGridY + GridUnit,
+							n_players[currPlayerIndex].GetNoHitSymbol().m_Sprite,
+							n_players[currPlayerIndex].GetNoHitSymbol().m_SourceX, n_players[currPlayerIndex].GetNoHitSymbol().m_SourceY, sea_width,
+							n_players[currPlayerIndex].GetNoHitSymbol().m_SourceW, n_players[currPlayerIndex].GetNoHitSymbol().m_SourceH);
+					}
+				}
+			}
+
+			int opponent = 0;
+			if (playerIndex == 0)
+				opponent = 1;
+			else
+				opponent = 0;
+
+			//primary system
+			for (int x = 0; x < GridX; x++)
+			{
+				for (int y = 0; y < GridX; y++)
+				{
+					if (n_players[playerIndex].GetTrackBoard()->m_board[x][y] == boardState::hitMissile)
+					{
+						m_drawImage.BLIT(BackBuffer, x*GridUnit + n_players[opponent].m_PrimaryGridX,
+							y*GridUnit + n_players[opponent].m_PrimaryGridY + GridUnit,
+							n_players[currPlayerIndex].GetHitSymbol().m_Sprite,
+							n_players[currPlayerIndex].GetHitSymbol().m_SourceX, n_players[currPlayerIndex].GetHitSymbol().m_SourceY, sea_width,
+							n_players[currPlayerIndex].GetHitSymbol().m_SourceW, n_players[currPlayerIndex].GetHitSymbol().m_SourceH);
+					}
+					else if (n_players[playerIndex].GetTrackBoard()->m_board[x][y] == boardState::noHitMissle)
+					{
+						m_drawImage.BLIT(BackBuffer, x*GridUnit + n_players[opponent].m_PrimaryGridX,
+							y*GridUnit + n_players[opponent].m_PrimaryGridY + GridUnit,
+							n_players[currPlayerIndex].GetNoHitSymbol().m_Sprite,
+							n_players[currPlayerIndex].GetNoHitSymbol().m_SourceX, n_players[currPlayerIndex].GetNoHitSymbol().m_SourceY, sea_width,
+							n_players[currPlayerIndex].GetNoHitSymbol().m_SourceW, n_players[currPlayerIndex].GetNoHitSymbol().m_SourceH);
+					}
+				}
+			}
+	
+		}
+
+	
 		
 		////draw tree
 		//for (int i = 0; i <5; i++)

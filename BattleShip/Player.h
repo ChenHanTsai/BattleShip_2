@@ -19,20 +19,48 @@ private:
 
 	
 public:
+
+	const board* GetTrackBoard()const
+	{
+		return &m_TrackBoard;
+	}
+
+	const board* GetPrimaryBoard()const
+	{
+		return &m_PrimaryBoard;
+	}
+
 	struct Choose
 	{
 		int m_ChooseX = 0;
 		int m_ChooseY = 0;
 
-		int m_SourceW = GridUnit;
-		int m_SourceH = GridUnit;
+		
 		int m_SourceX = ChooseSourceX;
 		int m_SourceY = ChooseSourceY;
-		const unsigned int* _sprite = sea_pixels;
+		int m_SourceW = GridUnit;
+		int m_SourceH = GridUnit;
+		const unsigned int* m_Sprite = sea_pixels;
 
+		Choose(int _SourceX, int _SourceY, int _SourceW, int _SourceH,const unsigned int* _sprite) :
+			m_SourceW(_SourceW), m_SourceH(_SourceH), m_SourceX(_SourceX), m_SourceY(_SourceY), m_Sprite(_sprite)
+		{
+		}
 	};
 
-	Choose m_Choose;
+	Choose m_Choose = Choose(ChooseSourceX, ChooseSourceY, GridUnit, GridUnit, sea_pixels);
+	Choose m_HitSymbol = Choose(HitSourceX, HitSourceY, GridUnit, GridUnit, sea_pixels);
+	Choose m_NoHitSymbol = Choose(NoHitSourceX, NoHitSourceY, GridUnit, GridUnit, sea_pixels);
+
+	const Choose& GetHitSymbol()const
+	{
+		return m_HitSymbol;
+	}
+
+	const Choose& GetNoHitSymbol()const
+	{
+		return m_NoHitSymbol;
+	}
 
 	const Choose& GetChoose()const
 	{

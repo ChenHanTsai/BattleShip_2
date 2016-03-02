@@ -11,5 +11,11 @@
 #define Player1TrackOffsetX GridUnit*player1OffsetX
 #define Player1TrackOffsetY GridUnit
 #define Player2ShiftX GridUnit*16
-#define ChooseSourceX 336
-#define ChooseSourceY 112
+#define ChooseSourceX 321
+#define ChooseSourceY 173
+
+#define HitSourceX 270
+#define HitSourceY 173
+
+#define NoHitSourceX 295
+#define NoHitSourceY 173

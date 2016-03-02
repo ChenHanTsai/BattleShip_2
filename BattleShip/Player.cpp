@@ -67,7 +67,11 @@ void Player::AssignRocket()
 		temp.m_NumberY = m_Choose.m_ChooseY / GridUnit;
 		if (m_TrackBoard.CheckRocketOccupy(temp) == false)
 		{
-			m_TrackBoard.SetRocketBoard(temp);
+			if (1)
+			   m_TrackBoard.SetRocketBoard(temp,boardState::hitMissile);
+			else
+				m_TrackBoard.SetRocketBoard(temp, boardState::noHitMissle);
+
 			m_State = PlayerState::wait;
 		}
 			
