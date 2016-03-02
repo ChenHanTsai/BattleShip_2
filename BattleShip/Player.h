@@ -27,6 +27,12 @@ public:
 		return &m_Ships[index];
 	}
 
+	int m_PrimaryGridX = 0;
+	int m_PrimaryGridY = 0;
+	int m_TrackGridX = 0;
+	int m_TrackGridY = 0;
+	void SetGridOffset(int _PrimaryGridX, int _PrimaryGridY, int _TrackGridX, int _TrackGridY);
+
 	Player();
 	~Player();
 

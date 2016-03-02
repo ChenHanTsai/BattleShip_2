@@ -1,3 +1,13 @@
-#define RS_WIDTH 1000
-#define RS_HEIGHT 1000
+#define RS_WIDTH 800
+#define RS_HEIGHT 800
 #define RS_NUMPIXELS RS_WIDTH*RS_HEIGHT
+#define GridUnit 25
+#define GridUnitMultiplyNumber GridUnit*GridX
+#define GridX 9
+#define player1OffsetX 3
+#define player1OffsetY 5
+#define Player1PrimaryOffsetX GridUnit*player1OffsetX
+#define Player1PrimaryOffsetY GridUnitMultiplyNumber+GridUnit*5
+#define Player1TrackOffsetX GridUnit*player1OffsetX
+#define Player1TrackOffsetY GridUnit
+#define Player2ShiftX GridUnit*16
