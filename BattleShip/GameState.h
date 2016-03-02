@@ -1,6 +1,6 @@
 #pragma once
 
-enum state{ init, play, over };
+enum state{ start, init, play, over };
 
 class GameState
 {

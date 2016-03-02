@@ -12,7 +12,7 @@
 #include "GameState.h"
 #include "Factors.h"
 #include "..//Resource/sea.h"
-
+#include "..//Resource/start.h"
 
 
 
@@ -39,7 +39,7 @@ int main(void)
 	n_players[0].SetState(PlayerState::inProcess);
 	n_players[0].SetGridOffset(Player1PrimaryOffsetX, Player1PrimaryOffsetY, Player1TrackOffsetX, Player1TrackOffsetY);
 	n_players[1].SetGridOffset(Player1PrimaryOffsetX + Player2ShiftX, Player1PrimaryOffsetY, Player1TrackOffsetX + Player2ShiftX, Player1TrackOffsetY);
-	m_Game.m_State = state::init;
+	m_Game.m_State = state::start;
 	do
 	{
 		m_XTime.Signal();
@@ -90,8 +90,8 @@ int main(void)
 		for (int playerIndex = 0; playerIndex < 2; playerIndex++)
 		{
 			for (int flagIndex = 0; flagIndex < n_players[playerIndex].GetTotalDestroyShips(); flagIndex++)
-				m_drawImage.BLIT(BackBuffer, x*GridUnit + n_players[playerIndex].m_TrackGridX,
-				flagIndex*GridUnit + n_players[playerIndex].m_TrackGridY + GridUnit,
+				m_drawImage.BLIT(BackBuffer, flagIndex*GridUnit + n_players[playerIndex].m_TrackGridX ,
+				n_players[playerIndex].m_TrackGridY - GridUnit,
 				n_players[currPlayerIndex].GetFlagSymbol().m_Sprite,
 				n_players[currPlayerIndex].GetFlagSymbol().m_SourceX, n_players[currPlayerIndex].GetFlagSymbol().m_SourceY, sea_width,
 				n_players[currPlayerIndex].GetFlagSymbol().m_SourceW, n_players[currPlayerIndex].GetFlagSymbol().m_SourceH);
@@ -158,6 +158,16 @@ int main(void)
 
 		switch (m_Game.m_State)
 		{
+		case state::start:
+			m_drawImage.BLIT(BackBuffer, 0,
+				0,
+				start_pixels,
+				0, 0, start_width,
+				RS_WIDTH, RS_HEIGHT);
+
+			if (GetAsyncKeyState(VK_RETURN) & 0x1)
+				m_Game.m_State = state::init;
+			break;
 		case state::init:
 
 			for (int playerIndex = 0; playerIndex < 2; playerIndex++)

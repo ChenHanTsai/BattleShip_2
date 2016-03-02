@@ -56,7 +56,7 @@ public:
 	Choose m_Choose = Choose(ChooseSourceX, ChooseSourceY, GridUnit, GridUnit, sea_pixels);
 	Choose m_HitSymbol = Choose(HitSourceX, HitSourceY, GridUnit, GridUnit, sea_pixels);
 	Choose m_NoHitSymbol = Choose(NoHitSourceX, NoHitSourceY, GridUnit, GridUnit, sea_pixels);
-	Choose m_FlagSymbol = Choose(NoHitSourceX, NoHitSourceY, GridUnit, GridUnit, sea_pixels);
+	Choose m_FlagSymbol = Choose(FlagSourceX, FlagSourceY, GridUnit, GridUnit, sea_pixels);
 
 	const Choose& GetHitSymbol()const
 	{
