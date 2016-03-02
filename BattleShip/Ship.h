@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <list>
+#include "LifeStruct.h"
 class Ship
 {
 private:
@@ -11,11 +12,6 @@ private:
 
 
 
-	struct LifeStruct
-	{
-		int m_NumberX = 0;
-		int m_NumberY = 0;
-	};
 	
 public:
 
@@ -33,11 +29,10 @@ public:
 		return m_isAssigned;
 	}
 
-	bool Ship::SetAssigned()
+	void Ship::SetAssigned(bool _bool)
 	{
-		//m_Owner = _owner;
-		m_isAssigned = CalculateGrid();
-		return m_isAssigned;
+
+		m_isAssigned = _bool;
 
 	}
 
@@ -49,12 +44,8 @@ public:
 	const unsigned int* m_Sprite;
 	int m_PosX;
 	int m_PosY;
-	Ship(int _length, const unsigned int* _sprite, int _x, int _y, int _w, int _h) :m_Life(_length), m_Sprite(_sprite),
-		m_sourceX(_x), m_sourceY(_y), m_sourceW(_w), m_sourceH(_h)
-	{
-		m_PosX = 0;
-		m_PosY =0;
-	};
+	Ship(int _length, const unsigned int* _sprite, int _x, int _y, int _w, int _h);
+
 
 	const unsigned int* GetSprite()
 	{

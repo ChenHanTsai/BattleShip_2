@@ -33,6 +33,7 @@ int main(void)
 	int x = 250;
 	int animationCounter = 0;
 	Player n_players[2];
+
 	n_players[0].SetState(PlayerState::inProcess);
 	n_players[0].SetGridOffset(Player1PrimaryOffsetX, Player1PrimaryOffsetY, Player1TrackOffsetX, Player1TrackOffsetY);
 	n_players[1].SetGridOffset(Player1PrimaryOffsetX + Player2ShiftX, Player1PrimaryOffsetY, Player1TrackOffsetX + Player2ShiftX, Player1TrackOffsetY);
@@ -70,29 +71,53 @@ int main(void)
 		{
 			m_drawImage.BLIT(BackBuffer, RS_WIDTH / 2 - GridUnit, y, sea_pixels, 520, 124, sea_width, GridUnit, GridUnit);
 		}
-
+		m_Game.m_State = state::play;
 		switch (m_Game.m_State)
 		{
 		case state::init:
 
 			for (int playerIndex = 0; playerIndex < 2; playerIndex++)
 			{
-				if (n_players[playerIndex].GetState() == PlayerState::inProcess)
-				   n_players[playerIndex].AssignMarine();
-
-				if (n_players[0].GetState() == PlayerState::wait)
+				if (n_players[0].GetState() == PlayerState::assignFinish)
 					n_players[1].SetState(PlayerState::inProcess);
 
-				for (int shipIndex = 0; shipIndex < 5; shipIndex++)
-					m_drawImage.BLIT(BackBuffer, n_players[playerIndex].GetShip(shipIndex)->m_PosX + n_players[playerIndex].m_PrimaryGridX,
-					n_players[playerIndex].GetShip(shipIndex)->m_PosY + n_players[playerIndex].m_PrimaryGridY + GridUnit,
-					n_players[playerIndex].GetShip(shipIndex)->m_Sprite, n_players[playerIndex].GetShip(shipIndex)->m_sourceX,
-					n_players[playerIndex].GetShip(shipIndex)->m_sourceY, sea_width, n_players[playerIndex].GetShip(shipIndex)->m_sourceW,
-					n_players[playerIndex].GetShip(shipIndex)->m_sourceH, n_players[playerIndex].GetShip(shipIndex)->m_Rotate, 0, 0);
+				if (n_players[playerIndex].GetState() == PlayerState::inProcess)
+				   n_players[playerIndex].AssignMarine();			
+
+				if (n_players[1].GetState() == PlayerState::assignFinish)
+				{
+				   m_Game.m_State = state::play;
+				   n_players[0].SetState(PlayerState::inProcess);
+			    }												
 			}
 				
 			break;
 		case state::play:
+			if (n_players[0].GetState() == PlayerState::wait)
+			{
+				n_players[1].SetState(PlayerState::inProcess);
+				n_players[1].AssignRocket();
+				m_drawImage.BLIT(BackBuffer, n_players[1].GetChoose().m_ChooseX + n_players[1].m_TrackGridX,
+					n_players[1].GetChoose().m_ChooseY + n_players[1].m_TrackGridY + GridUnit,n_players[1].GetChoose()._sprite,
+					n_players[1].GetChoose().m_SourceX,n_players[1].GetChoose().m_SourceY, sea_width, 
+					n_players[1].GetChoose().m_SourceW,n_players[1].GetChoose().m_SourceH);
+
+				if (n_players[1].GetState() == PlayerState::wait)
+					n_players[0].SetState(PlayerState::inProcess);
+			}
+			else
+			{
+				n_players[0].SetState(PlayerState::inProcess);
+				n_players[0].AssignRocket();
+				m_drawImage.BLIT(BackBuffer, n_players[0].GetChoose().m_ChooseX + n_players[0].m_TrackGridX,
+					n_players[0].GetChoose().m_ChooseY + n_players[0].m_TrackGridY + GridUnit,
+					n_players[0].GetChoose()._sprite, n_players[0].GetChoose().m_SourceX,
+					n_players[0].GetChoose().m_SourceY, sea_width, n_players[0].GetChoose().m_SourceW,
+					n_players[0].GetChoose().m_SourceH);
+
+				if (n_players[0].GetState() == PlayerState::wait)
+					n_players[1].SetState(PlayerState::inProcess);
+			}
 				break;
 
 		case state::over:
@@ -100,6 +125,20 @@ int main(void)
 		default:
 			break;
 		}
+
+		for (int playerIndex = 0; playerIndex < 2; playerIndex++)
+		{
+			for (int shipIndex = 0; shipIndex < 5; shipIndex++)
+				m_drawImage.BLIT(BackBuffer, n_players[playerIndex].GetShip(shipIndex)->m_PosX + n_players[playerIndex].m_PrimaryGridX,
+				n_players[playerIndex].GetShip(shipIndex)->m_PosY + n_players[playerIndex].m_PrimaryGridY + GridUnit,
+				n_players[playerIndex].GetShip(shipIndex)->m_Sprite, n_players[playerIndex].GetShip(shipIndex)->m_sourceX,
+				n_players[playerIndex].GetShip(shipIndex)->m_sourceY, sea_width, n_players[playerIndex].GetShip(shipIndex)->m_sourceW,
+				n_players[playerIndex].GetShip(shipIndex)->m_sourceH);
+
+		
+
+		}
+		
 		////draw tree
 		//for (int i = 0; i <5; i++)
 		//{

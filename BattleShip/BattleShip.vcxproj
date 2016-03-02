@@ -81,10 +81,12 @@
   <ItemGroup>
     <ClInclude Include="..\Resource\Submarine.h" />
     <ClInclude Include="blood_hit_04.h" />
+    <ClInclude Include="board.h" />
     <ClInclude Include="DrawImage.h" />
     <ClInclude Include="Factors.h" />
     <ClInclude Include="fire_01.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="LifeStruct.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RasterSurface.h" />
     <ClInclude Include="Ship.h" />
@@ -96,8 +98,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BattleShip.cpp" />
+    <ClCompile Include="board.cpp" />
     <ClCompile Include="DrawImage.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="LifeStruct.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RasterSurface.cpp" />
     <ClCompile Include="Ship.cpp" />
