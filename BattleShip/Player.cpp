@@ -18,7 +18,7 @@ Player::~Player()
 {
 }
 
-void Player::AssignRocket(const board* opponent)
+void Player::AssignRocket( Player* opponent)
 {
 	if (GetAsyncKeyState(VK_LEFT) & 0x1)
 	{
@@ -67,8 +67,12 @@ void Player::AssignRocket(const board* opponent)
 		temp.m_NumberY = m_Choose.m_ChooseY / GridUnit;
 		if (m_TrackBoard.CheckRocketOccupy(temp) == false)
 		{
-			if (m_TrackBoard.CheckOpponetPrimaryBoard(temp,opponent))
-			   m_TrackBoard.SetRocketBoard(temp,boardState::hitMissile);
+			if (m_TrackBoard.CheckOpponetPrimaryBoard(temp, opponent->GetPrimaryBoard()))
+			{
+				m_TrackBoard.SetRocketBoard(temp, boardState::hitMissile);
+				opponent->UpdateShips(temp);
+			}
+			   
 			else
 				m_TrackBoard.SetRocketBoard(temp, boardState::noHitMissle);
 
@@ -77,7 +81,27 @@ void Player::AssignRocket(const board* opponent)
 			
 	}
 }
+void Player::UpdateShips(const LifeStruct& _life)
+{
+	for (int shipIndex = 0; shipIndex < TotalShip; shipIndex++)
+	{
+		for (unsigned int lifeIndex = 0; lifeIndex < m_Ships[shipIndex].m_LifeStruct.size(); lifeIndex++)
+		{
+			auto iter = m_Ships[shipIndex].m_LifeStruct.begin();
 
+			if (iter->m_NumberX == _life.m_NumberX&& iter->m_NumberY == _life.m_NumberY)
+			{
+				m_Ships[shipIndex].m_LifeStruct.erase(iter);
+				m_Ships[shipIndex].SetLife(m_Ships[shipIndex].GetLife() - 1);
+
+				if (m_Ships[shipIndex].GetLife() == 0)
+					m_TotalDestroyShips++;
+
+				break;
+			}	
+		}
+	}
+}
 
 void Player::AssignMarine()
 {

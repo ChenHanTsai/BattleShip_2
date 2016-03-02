@@ -19,3 +19,5 @@
 
 #define NoHitSourceX 295
 #define NoHitSourceY 173
+
+#define TotalShip 5

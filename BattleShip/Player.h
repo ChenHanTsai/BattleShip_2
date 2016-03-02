@@ -16,9 +16,14 @@ private:
 	board m_TrackBoard;
 	board m_PrimaryBoard;
 
-
+	int m_TotalDestroyShips = 0;
 	
 public:
+
+	const int GetTotalDestroyShips()const
+	{
+		return m_TotalDestroyShips;
+	}
 
 	const board* GetTrackBoard()const
 	{
@@ -51,6 +56,7 @@ public:
 	Choose m_Choose = Choose(ChooseSourceX, ChooseSourceY, GridUnit, GridUnit, sea_pixels);
 	Choose m_HitSymbol = Choose(HitSourceX, HitSourceY, GridUnit, GridUnit, sea_pixels);
 	Choose m_NoHitSymbol = Choose(NoHitSourceX, NoHitSourceY, GridUnit, GridUnit, sea_pixels);
+	Choose m_FlagSymbol = Choose(NoHitSourceX, NoHitSourceY, GridUnit, GridUnit, sea_pixels);
 
 	const Choose& GetHitSymbol()const
 	{
@@ -65,6 +71,11 @@ public:
 	const Choose& GetChoose()const
 	{
 		return m_Choose;
+	}
+
+	const Choose& GetFlagSymbol()const
+	{
+		return m_FlagSymbol;
 	}
 
 	const PlayerState& GetState()const
@@ -90,6 +101,7 @@ public:
 	~Player();
 
 	void AssignMarine();
-	void AssignRocket(const board* opponent);
+	void AssignRocket( Player* opponent);
+	void UpdateShips(const LifeStruct& _life);
 };
 

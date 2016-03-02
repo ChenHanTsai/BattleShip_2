@@ -21,7 +21,10 @@ public:
 	{
 		return m_Life;
 	}
-
+	void SetLife(int _life)
+	{
+		m_Life = _life;
+	}
 
 	std::list<LifeStruct> m_LifeStruct;
 	bool GetAssigned()const

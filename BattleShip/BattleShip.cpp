@@ -86,6 +86,17 @@ int main(void)
 				n_players[playerIndex].GetShip(shipIndex)->m_sourceH);
 		}
 
+		//draw flag
+		for (int playerIndex = 0; playerIndex < 2; playerIndex++)
+		{
+			for (int flagIndex = 0; flagIndex < n_players[playerIndex].GetTotalDestroyShips(); flagIndex++)
+				m_drawImage.BLIT(BackBuffer, x*GridUnit + n_players[playerIndex].m_TrackGridX,
+				flagIndex*GridUnit + n_players[playerIndex].m_TrackGridY + GridUnit,
+				n_players[currPlayerIndex].GetFlagSymbol().m_Sprite,
+				n_players[currPlayerIndex].GetFlagSymbol().m_SourceX, n_players[currPlayerIndex].GetFlagSymbol().m_SourceY, sea_width,
+				n_players[currPlayerIndex].GetFlagSymbol().m_SourceW, n_players[currPlayerIndex].GetFlagSymbol().m_SourceH);
+		}
+
 		//draw rocket
 		for (int playerIndex = 0; playerIndex < 2; playerIndex++)
 		{
@@ -170,7 +181,7 @@ int main(void)
 			if (n_players[nextPlayerIndex].GetState() == PlayerState::wait)
 			{
 				n_players[currPlayerIndex].SetState(PlayerState::inProcess);
-				n_players[currPlayerIndex].AssignRocket(n_players[nextPlayerIndex].GetPrimaryBoard());
+				n_players[currPlayerIndex].AssignRocket(&n_players[nextPlayerIndex]);
 				m_drawImage.BLIT(BackBuffer, n_players[currPlayerIndex].GetChoose().m_ChooseX + n_players[currPlayerIndex].m_TrackGridX,
 					n_players[currPlayerIndex].GetChoose().m_ChooseY + n_players[currPlayerIndex].m_TrackGridY + GridUnit, n_players[currPlayerIndex].GetChoose().m_Sprite,
 					n_players[currPlayerIndex].GetChoose().m_SourceX, n_players[currPlayerIndex].GetChoose().m_SourceY, sea_width,
@@ -195,7 +206,11 @@ int main(void)
 						
 				}
 				
-			
+			for (int i = 0; i < 2;i++)
+				if (n_players[i].GetTotalDestroyShips() == TotalShip)
+				{
+					m_Game.m_State = state::over;
+				}
 			
 				break;
 
@@ -223,7 +238,7 @@ int main(void)
 		//		14, tiles_12_width, 64, 85, (float)M_PI, m_drawImage.m_position[i].x + 64 / 2, m_drawImage.m_position[i].y + 85 / 2);
 		//}
 
-		int sourceX = 0;
+	/*	int sourceX = 0;
 		int sourceY = 0;
 
 		sourceX = animationCounter % 8 * 128;
@@ -242,7 +257,7 @@ int main(void)
 
 			m_XTime.Restart();
 		}
-
+*/
 
 	} while (RS_Update(BackBuffer, RS_NUMPIXELS));
 
