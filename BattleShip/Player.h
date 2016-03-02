@@ -90,6 +90,6 @@ public:
 	~Player();
 
 	void AssignMarine();
-	void AssignRocket();
+	void AssignRocket(const board* opponent);
 };
 

@@ -18,7 +18,7 @@ Player::~Player()
 {
 }
 
-void Player::AssignRocket()
+void Player::AssignRocket(const board* opponent)
 {
 	if (GetAsyncKeyState(VK_LEFT) & 0x1)
 	{
@@ -67,7 +67,7 @@ void Player::AssignRocket()
 		temp.m_NumberY = m_Choose.m_ChooseY / GridUnit;
 		if (m_TrackBoard.CheckRocketOccupy(temp) == false)
 		{
-			if (1)
+			if (m_TrackBoard.CheckOpponetPrimaryBoard(temp,opponent))
 			   m_TrackBoard.SetRocketBoard(temp,boardState::hitMissile);
 			else
 				m_TrackBoard.SetRocketBoard(temp, boardState::noHitMissle);
