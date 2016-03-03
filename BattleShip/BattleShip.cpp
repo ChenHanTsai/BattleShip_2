@@ -13,7 +13,7 @@
 #include "Factors.h"
 #include "..//Resource/sea.h"
 #include "..//Resource/start.h"
-
+#include <ctime>
 
 
 
@@ -23,7 +23,9 @@ int main(void)
 	XTime m_XTime;
 	GameState m_Game;
 	
-	m_XTime.Restart();
+	srand((unsigned)time(NULL));
+
+	//m_XTime.Restart();
 
 	int currPlayerIndex = 0;
 	int nextPlayerIndex = 1;
@@ -32,8 +34,10 @@ int main(void)
 	RS_Initialize(RS_WIDTH, RS_HEIGHT);
 
 	Matrix2D2 m_matrix2D2((float)M_PI_4);
-	int x = 250;
-	int animationCounter = 0;
+//	int x = 250;
+	//int animationCounter = 0;
+	int m_menuX = 0;
+	int m_menuY = 1;
 	Player n_players[2];
 
 	n_players[0].SetState(PlayerState::inProcess);
@@ -88,8 +92,14 @@ int main(void)
 
 		//draw flag
 		for (int playerIndex = 0; playerIndex < 2; playerIndex++)
-		{
-			for (int flagIndex = 0; flagIndex < n_players[playerIndex].GetTotalDestroyShips(); flagIndex++)
+		{ 
+			int opponenIndex = 0;
+			if (playerIndex == 0)
+				opponenIndex = 1;
+			else
+				opponenIndex = 0;
+
+			for (int flagIndex = 0; flagIndex < n_players[opponenIndex].GetTotalDestroyShips(); flagIndex++)
 				m_drawImage.BLIT(BackBuffer, flagIndex*GridUnit + n_players[playerIndex].m_TrackGridX ,
 				n_players[playerIndex].m_TrackGridY - GridUnit,
 				n_players[currPlayerIndex].GetFlagSymbol().m_Sprite,
@@ -159,11 +169,19 @@ int main(void)
 		switch (m_Game.m_State)
 		{
 		case state::start:
-			m_drawImage.BLIT(BackBuffer, 0,
-				0,
-				start_pixels,
-				0, 0, start_width,
-				RS_WIDTH, RS_HEIGHT);
+			m_drawImage.BLIT(BackBuffer, 0,0,	start_pixels,0, 0, start_width,RS_WIDTH, RS_HEIGHT);
+
+			m_drawImage.BLIT(BackBuffer, 0, 0, start_pixels, 0, 0, start_width, RS_WIDTH, RS_HEIGHT);
+
+			m_drawImage.BLIT(BackBuffer, 0, 0, start_pixels, 0, 0, start_width, RS_WIDTH, RS_HEIGHT);
+
+			m_drawImage.BLIT(BackBuffer, 0, 0, start_pixels, 0, 0, start_width, RS_WIDTH, RS_HEIGHT);
+
+			if (GetAsyncKeyState(VK_RETURN) & 0x1)
+
+			if (GetAsyncKeyState(VK_RETURN) & 0x1)
+
+				m_drawImage.BLIT(BackBuffer, 0, 0, start_pixels, 0, 0, start_width, RS_WIDTH, RS_HEIGHT);
 
 			if (GetAsyncKeyState(VK_RETURN) & 0x1)
 				m_Game.m_State = state::init;
