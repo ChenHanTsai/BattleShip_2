@@ -17,9 +17,13 @@ private:
 	board m_PrimaryBoard;
 
 	int m_TotalDestroyShips = 0;
-	bool m_AI = true;
+	bool m_AI = false;
 public:
 
+	void SetAI(bool _bool)
+	{
+		m_AI = _bool;
+	}
 	const int GetTotalDestroyShips()const
 	{
 		return m_TotalDestroyShips;

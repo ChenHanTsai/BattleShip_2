@@ -23,4 +23,27 @@
 #define FlagSourceX 271
 #define FlagSourceY 197
 
+#define Player1NameX 50
+#define Player1NameY 650
+#define Player2NameX 550
+#define Player2NameY 650
+
+#define Player1SourceX 749
+#define Player1SourceY 194
+#define Player2SourceX 749
+#define Player2SourceY 240
+
+#define PlayerNameSourceW 178
+#define PlayerNameSourceH 49
+
+
 #define TotalShip 5
+
+#define MenuX 100
+#define MenuY 550
+#define MenuShift 250
+#define MarineW 85
+#define MarineH 53
+#define MarineX 238
+#define MarineY 370
+
