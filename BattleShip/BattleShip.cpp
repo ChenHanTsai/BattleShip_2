@@ -55,15 +55,6 @@ int main(void)
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x1)
 			playing = false;
 
-		if (GetAsyncKeyState(VK_SPACE) & 0x1)
-		{
-			if (n_players[0].GetAI() == true && n_players[1].GetAI() == true && m_Game.m_State == state::play)
-				pause = !pause;
-		}
-		
-		if (pause)
-			return;
-
 		m_XTime.Signal();
 
 		m_drawImage.cleanBackGround(RS_WIDTH, RS_HEIGHT);
