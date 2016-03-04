@@ -1,7 +1,5 @@
 #pragma once
 #include "Ship.h"
-#include "tiles_12.h" // town
-#include "fire_01.h"
 #include "..//Resource/sea.h"
 #include <windows.h>
 #include "Factors.h"
