@@ -37,7 +37,7 @@ int main(void)
 	int animationCounter = 0;
 	int sourceX = 0;
 	int sourceY = 0;
-
+	bool pause = false;
 	
 
 	int m_menuX = MenuX;
@@ -54,6 +54,15 @@ int main(void)
 	{
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x1)
 			playing = false;
+
+		if (GetAsyncKeyState(VK_SPACE) & 0x1)
+		{
+			if (n_players[0].GetAI() == true && n_players[1].GetAI() == true && m_Game.m_State == state::play)
+				pause = !pause;
+		}
+		
+		if (pause)
+			return;
 
 		m_XTime.Signal();
 

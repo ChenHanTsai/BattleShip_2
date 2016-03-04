@@ -18,6 +18,11 @@ private:
 	bool m_AI = false;
 public:
 
+	bool GetAI()const
+	{
+		return m_AI;
+	}
+
 	void SetAI(bool _bool)
 	{
 		m_AI = _bool;

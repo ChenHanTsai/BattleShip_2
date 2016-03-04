@@ -1,0 +1,10 @@
+1. Menu select player or AI
+2. Assign ships, ships cannot be placed at the same grid
+3. Fire missile, cannot fire at previous location
+4. Collect 5 flags to win
+5. Press Esc to exit the game
+
+Control:
+Move - Left/Up/Down/Right
+Fire/Select - Enter
+Exit - Escape
