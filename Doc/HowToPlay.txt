@@ -6,5 +6,6 @@
 
 Control:
 Move - Left/Up/Down/Right
+Rotate - R
 Fire/Select - Enter
 Exit - Escape
